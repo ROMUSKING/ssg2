@@ -29,7 +29,7 @@ class TestLeafNode(unittest.TestCase):
         node2 = LeafNode("p", "This is a HTML node", {"background-image" : "/assets/image.jpg"})
         self.assertEqual(node, node2)
 
-    def test_prop_repr(self):
+    def test_raw_repr(self):
         node = LeafNode(None,
                         ' background-image="/assets/image.jpg" width="100%"', 
                         props={
