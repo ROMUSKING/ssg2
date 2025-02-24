@@ -13,13 +13,14 @@ class HTMLNode:
         self.props = props
     
     def __eq__(self, other):
-        return (self.tag == other.tag 
+        return (type(self) == type(other)       
+            and self.tag == other.tag 
                 and self.value == other.value 
                 and self.children == other.children 
                 and self.props == other.props)
     
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children, self.props_to_html()})"
+        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props_to_html()})"
     
     def to_html(self):
         raise NotImplementedError
@@ -28,8 +29,6 @@ class HTMLNode:
         attr = ""
         if isinstance(self.props, dict) and len(self.props) > 0:                
             for k, v in self.props.items():
-                attr += f' {k}="{v}"'
-        else: 
-            print("erroneus or missing props")
+                attr += f' {k}="{v}"'        
         return attr
         

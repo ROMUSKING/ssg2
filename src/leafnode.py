@@ -1,35 +1,29 @@
 from htmlnode import HTMLNode
 
 
-class HTMLNode(HTMLNode):
+class LeafNode(HTMLNode):
     def __init__(self, 
-                 tag = None, 
-                 value = None, 
-                 children = None, 
+                 tag, 
+                 value, 
                  props = None):
-        self.tag = tag
-        self.value = value
-        self.children = children
-        self.props = props
+        super().__init__(                 
+                 tag = tag, 
+                 value = value, 
+                 props = props)
+        
     
     def __eq__(self, other):
-        return (self.tag == other.tag 
-                and self.value == other.value 
-                and self.children == other.children 
-                and self.props == other.props)
+        return (type(self) == type(other)            
+            and self.tag == other.tag 
+            and self.value == other.value 
+            and self.props == other.props)
     
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children, self.props_to_html()})"
+        return f"LeafNode({self.tag}, {self.value}, {self.props_to_html()})"
     
     def to_html(self):
-        raise NotImplementedError
-    
-    def props_to_html(self):
-        attr = ""
-        if isinstance(self.props, dict) and len(self.props) > 0:                
-            for k, v in self.props.items():
-                attr += f' {k}="{v}"'
-        else: 
-            print("erroneus or missing props")
-        return attr
-        
+        if self.value is None or len(self.value) < 1:
+            raise ValueError("All leaf nodes must have a value")
+        if self.tag is None or len(self.tag) < 1:
+            return self.value
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
