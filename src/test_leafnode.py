@@ -1,6 +1,7 @@
 import unittest
 
 from leafnode import LeafNode
+from textnode import TextNode, TextType
 
 
 class TestLeafNode(unittest.TestCase):
@@ -39,7 +40,52 @@ class TestLeafNode(unittest.TestCase):
                         )
         raw = ' background-image="/assets/image.jpg" width="100%"'
         self.assertEqual(node.to_html(), raw)
+        
+    def test_from_text_node_bold(self):
+        text_node = TextNode("This is a text node", TextType.BOLD)
+        node = LeafNode(None, None)
+        node2 = LeafNode("b", "This is a text node")
+        node.from_text_node(text_node)
+        self.assertEqual(node, node2)
+
+    def test_from_text_node_image(self):
+        text_node = TextNode("This is an image", TextType.IMAGE, "https://www.boot.dev/_nuxt/9.B-zPuvyH.png")
+        node = LeafNode(None, None)
+        node.from_text_node(text_node)
+        html = '<img src="https://www.boot.dev/_nuxt/9.B-zPuvyH.png" alt="This is an image">'
+        self.assertEqual(node.to_html(), html)
+
+
+    def test_from_text_node_link(self):
+        text_node = TextNode("This is an link", TextType.LINK, "https://www.boot.dev/_nuxt/9.B-zPuvyH.png")
+        node = LeafNode(None, None)
+        node.from_text_node(text_node)
+        
+        html = '<a href="https://www.boot.dev/_nuxt/9.B-zPuvyH.png">This is an link</a>'
+        self.assertEqual(node.to_html(), html)
+
+
+    def test_from_text_node_italics(self):
+        text_node = TextNode("This is an italical text", TextType.ITALIC, "https://www.boot.dev/_nuxt/9.B-zPuvyH.png")
+        node = LeafNode(None, None)
+        node.from_text_node(text_node)
+        
+        html = '<i>This is an italical text</i>'
+        self.assertEqual(node.to_html(), html)
+
+
+    def test_from_text_node_code(self):
+        text_node = TextNode("This is an code", TextType.CODE, "https://www.boot.dev/_nuxt/9.B-zPuvyH.png")
+        node = LeafNode(None, None)
+        node.from_text_node(text_node)
+        
+        html = '<code>This is an code</code>'
+        self.assertEqual(node.to_html(), html)
+
 
 
 if __name__ == "__main__":
     unittest.main()
+    
+    
+    

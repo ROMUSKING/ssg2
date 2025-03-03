@@ -1,5 +1,3 @@
-from textnode import TextNode, TextType
-
 
 class HTMLNode:
     def __init__(self, 
@@ -31,4 +29,6 @@ class HTMLNode:
             for k, v in self.props.items():
                 attr += f' {k}="{v}"'        
         return attr
-        
+
+    def from_text_node(self, text_node):        
+        raise NotImplementedError
